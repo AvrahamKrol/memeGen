@@ -102,3 +102,19 @@ footer {
 footer p {
     margin: 0;
 }
+
+@media (max-width: 768px) {
+    main .editor {
+        grid-template-columns: 1fr;
+    }
+
+    .canvas-container {
+        width: 100%;
+        padding-inline: 20px;
+    }
+
+    .controls {
+        width: 100%;
+        padding-inline: 20px;
+    }
+}
