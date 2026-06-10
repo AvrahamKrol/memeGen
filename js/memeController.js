@@ -7,6 +7,10 @@ function onInit() {
   gElCanvas = document.querySelector('canvas');
   gCtx = gElCanvas.getContext('2d');
 
+  const params = new URLSearchParams(window.location.search);
+  const imgId = params.get('imgId');
+  if (imgId) setSelectedImg(+imgId);
+
   resizeCanvas();
   renderMeme();
 }

@@ -20,6 +20,14 @@ function getMeme() {
   return gMeme;
 }
 
+function getImgs() {
+  return gImgs;
+}
+
+function setSelectedImg(imgId) {
+  gMeme.selectedImgId = imgId;
+}
+
 function setLineTxt(txt) {
   gMeme.lines[0].txt = txt;
 }
