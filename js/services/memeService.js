@@ -14,6 +14,7 @@ let gMeme = {
       color: 'white',
       font: 'Montserrat',
       stroke: 'black',
+      align: 'center',
       size: 20,
     },
   ],
@@ -58,4 +59,8 @@ function setFill(color) {
 
 function setStroke(stroke) {
   gMeme.lines[gMeme.selectedLineIdx].stroke = stroke;
+}
+
+function setAlign(dir) {
+  gMeme.lines[gMeme.selectedLineIdx].align = dir;
 }

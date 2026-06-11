@@ -49,16 +49,28 @@ function onSetFillColor(color) {
   renderMeme();
 }
 
+function onAlign(direction) {
+  setAlign(direction);
+  renderMeme();
+}
+
 function drawText(line) {
   gCtx.lineWidth = 4;
   gCtx.fillStyle = line.color || 'white';
   gCtx.strokeStyle = line.stroke || 'black';
 
   gCtx.font = `${line.size}px ${line.font}`;
-  gCtx.textAlign = 'center';
+  gCtx.textAlign = line.align || 'center';
   gCtx.textBaseline = 'top';
 
-  const x = gElCanvas.width / 2;
+  const padding = 10;
+
+  let x;
+
+  if (line.align === 'left') x = padding;
+  else if (line.align === 'right') x = gElCanvas.width - padding;
+  else x = gElCanvas.width / 2;
+
   const y = 20;
 
   gCtx.strokeText(line.txt, x, y);
