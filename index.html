@@ -47,10 +47,10 @@
           </div>
           <div class="typo-container">
             <div class="controls-btns">
-              <button class="ctrl-btn">
+              <button class="ctrl-btn" onclick="onSetFontSize(2)">
                 <img src="icons/increase font - icon.png" alt="increase" />
               </button>
-              <button class="ctrl-btn">
+              <button class="ctrl-btn" onclick="onSetFontSize(-2)">
                 <img src="icons/decrease font - icon.png" alt="decrease" />
               </button>
               <button class="ctrl-btn">
@@ -62,12 +62,25 @@
               <button class="ctrl-btn">
                 <img src="icons/center-text-alignment.png" alt="trash" />
               </button>
-              <button class="ctrl-btn">
-                <img src="icons/text stroke.png" alt="trash" />
-              </button>
-              <button class="ctrl-btn">
-                <img src="icons/paint-board-and-brush.png" alt="trash" />
-              </button>
+              <select
+                class="ctrl-btn ctrl-btn-font"
+                name="font"
+                id="font"
+                onchange="onSetFont(this.value)"
+              >
+                <option value="montserrat">Montserrat</option>
+                <option value="arial">Arial</option>
+                <option value="comic sans ms">Comic Sans MS</option>
+                <option value="impact">Impact</option>
+              </select>
+              <label class="ctrl-btn">
+                <img src="icons/text stroke.png" alt="stroke color" />
+                <input type="color" oninput="onSetStrokeColor(this.value)" />
+              </label>
+              <label class="ctrl-btn">
+                <img src="icons/paint-board-and-brush.png" alt="fill color" />
+                <input type="color" oninput="onSetFillColor(this.value)" />
+              </label>
             </div>
           </div>
           <div class="emoji-container"></div>

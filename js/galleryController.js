@@ -34,6 +34,7 @@ function onChangeSection() {
   el.innerText = gIsEditor ? 'Gallery' : 'Editor';
 
   showSection(gIsEditor);
+  setInputValue();
 
   if (gIsEditor) {
     gElCanvas = document.querySelector('canvas');
@@ -45,5 +46,6 @@ function onChangeSection() {
 
 function onSelectImg(imgId) {
   setImg(imgId);
+  setInputValue();
   onChangeSection();
 }

@@ -19,7 +19,7 @@ function renderMeme() {
   img.src = `imgs/${meme.selectedImgId}.jpg`;
   img.onload = () => {
     renderImg(img);
-    drawText(meme.lines[0]);
+    drawText(meme.lines[meme.selectedLineIdx]);
   };
 }
 
@@ -28,12 +28,33 @@ function onSetText(el) {
   renderMeme();
 }
 
+function onSetFont(font) {
+  console.log('font:', font);
+  setFont(font);
+  renderMeme();
+}
+
+function onSetFontSize(diff) {
+  setFontSize(diff);
+  renderMeme();
+}
+
+function onSetStrokeColor(color) {
+  setStroke(color);
+  renderMeme();
+}
+
+function onSetFillColor(color) {
+  setFill(color);
+  renderMeme();
+}
+
 function drawText(line) {
   gCtx.lineWidth = 4;
   gCtx.fillStyle = line.color || 'white';
-  gCtx.strokeStyle = 'black';
+  gCtx.strokeStyle = line.stroke || 'black';
 
-  gCtx.font = `${line.size}px Montserrat`;
+  gCtx.font = `${line.size}px ${line.font}`;
   gCtx.textAlign = 'center';
   gCtx.textBaseline = 'top';
 
