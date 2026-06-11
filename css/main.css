@@ -58,13 +58,13 @@ main {
     background-color: var(--bgc-main);
 }
 
-main .editor,
+main .editor-container,
 main .grid-container {
     padding-block: 1.625em;
     padding-inline: 2.5em;
 }
 
-main .editor {
+main .editor-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -93,20 +93,21 @@ main .editor {
 
 .controls input {
     width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
+    padding: 1.2em 1em;
+    font-size: 1em;
     border: 1px solid #ccc;
     border-radius: 8px;
     outline: none;
 }
 
-.controls .controls-btns {
+.controls-btns {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
-.controls .ctrl-btn {
+.ctrl-btn {
     background-color: #fff;
     border: none;
     padding: 6px 6px;
@@ -115,9 +116,14 @@ main .editor {
     align-items: center;
 }
 
-.controls .ctrl-btn img {
-    width: 24px;
+.ctrl-btn img {
+    width: 52px;
     flex: 1;
+}
+
+.controls .share-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .controls .btn-share {
@@ -129,12 +135,11 @@ main .editor {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    align-self: flex-end;
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     gap: 10px;
 }
 
@@ -154,14 +159,14 @@ footer p {
 
 @media (max-width: 768px) {
     header {
-        padding-inline: 0.2em;
-        padding-block: 0.2em;
+        padding-inline: 0.15em;
+        padding-block: 0.1em;
     }
 
     header img,
     footer img {
         width: auto;
-        height: 1.5rem;
+        height: 1rem;
     }
 
     header nav a {
@@ -170,13 +175,13 @@ footer p {
         line-height: 1.1rem;
     }
 
-    main .editor,
+    main .editor-container,
     main .grid-container {
         padding-block: .625em;
         padding-inline: 0;
     }
 
-    main .editor {
+    main .editor-container {
         grid-template-columns: 1fr;
         gap: 10px;
     }

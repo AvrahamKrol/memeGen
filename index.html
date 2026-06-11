@@ -11,23 +11,85 @@
     />
     <link rel="stylesheet" href="css/helper.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <title>MemeGen</title>
   </head>
   <body onload="onInit()" onresize="resizeCanvas()">
     <header>
       <img src="LOGO/LOGO.png" alt="logo" />
       <nav>
-        <a href="editor.html" class="btn-clear">Editor</a>
-        <a href="#" class="btn-clear">About</a>
+        <a href="#" class="list-reset" onclick="onChangeSection()">Editor</a>
+        <a href="#" class="list-reset">About</a>
       </nav>
     </header>
     <main>
-      <section class="grid-container"></section>
+      <section class="grid-container hidden"></section>
+      <section class="editor-container hidden">
+        <article class="canvas-container">
+          <canvas id="memeGen"> </canvas>
+        </article>
+        <article class="controls">
+          <div class="input-container">
+            <input type="text" oninput="onSetText(this)" />
+            <div class="controls-btns">
+              <button class="ctrl-btn">
+                <img
+                  src="icons/up-and-down-opposite-double-arrows-side-by-side.png"
+                  alt="up and down"
+                />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/add.png" alt="add" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/trash.png" alt="trash" />
+              </button>
+            </div>
+          </div>
+          <div class="typo-container">
+            <div class="controls-btns">
+              <button class="ctrl-btn">
+                <img src="icons/increase font - icon.png" alt="increase" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/decrease font - icon.png" alt="decrease" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/align-to-left.png" alt="trash" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/align-to-right.png" alt="trash" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/center-text-alignment.png" alt="trash" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/text stroke.png" alt="trash" />
+              </button>
+              <button class="ctrl-btn">
+                <img src="icons/paint-board-and-brush.png" alt="trash" />
+              </button>
+            </div>
+          </div>
+          <div class="emoji-container"></div>
+          <div class="share-container">
+            <a
+              class="btn-share list-reset"
+              href="#"
+              onclick="downloadCanvas(this)"
+              download="file-name"
+              >Download</a
+            >
+            <button class="btn-share">Share</button>
+          </div>
+        </article>
+      </section>
     </main>
     <footer>
       <img src="LOGO/LOGO.png" alt="logo" />
       <p>All rights reserved 2026</p>
     </footer>
     <script src="js/services/memeService.js"></script>
+    <script src="js/memeController.js"></script>
     <script src="js/galleryController.js"></script>
   </body>
 </html>

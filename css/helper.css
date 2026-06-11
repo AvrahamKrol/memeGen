@@ -1,6 +1,18 @@
-.btn-clear {
-  outline: none;
-  border: none;
-  background-color: transparent;
+.list-reset {
   color: inherit;
+  text-decoration: none;
+}
+
+main .editor-container.hidden,
+main .grid-container.hidden {
+  display: none
+}
+
+main .editor-container.grid,
+main .grid-container.grid {
+  display: grid;
+}
+
+.btn-big {
+  flex: 2;
 }
