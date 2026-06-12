@@ -10,12 +10,24 @@ let gMeme = {
   selectedLineIdx: 0,
   lines: [
     {
+      id: 0,
       txt: 'I sometimes eat Falafel',
       color: 'white',
       font: 'Montserrat',
       stroke: 'black',
       align: 'center',
+      size: 40,
+      pos: { x: 0, y: 0 },
+    },
+    {
+      id: 1,
+      txt: 'I love nature',
+      color: 'white',
+      font: 'Montserrat',
+      stroke: 'black',
+      align: 'center',
       size: 20,
+      pos: { x: 0, y: 200 },
     },
   ],
 };
@@ -42,7 +54,12 @@ function setLineTxt(txt) {
 
 function setInputValue() {
   const input = document.querySelector('input[type="text"]');
-  input.value = gMeme.lines[0].txt;
+
+  input.value = '';
+
+  if (gMeme.lines.length !== 0) {
+    input.value = gMeme.lines[gMeme.selectedLineIdx].txt;
+  }
 }
 
 function setFont(font) {
@@ -63,4 +80,45 @@ function setStroke(stroke) {
 
 function setAlign(dir) {
   gMeme.lines[gMeme.selectedLineIdx].align = dir;
+}
+
+function addLine() {
+  const x = getRandomInt(0, gElCanvas.width);
+  const y = getRandomInt(0, gElCanvas.height);
+
+  const newLine = _createLine(x, y);
+  gMeme.lines.push(newLine);
+  gMeme.selectedLineIdx = gMeme.lines.length - 1;
+}
+
+function switchLine() {
+  gMeme.selectedLineIdx++;
+
+  if (gMeme.selectedLineIdx >= gMeme.lines.length) {
+    gMeme.selectedLineIdx = 0;
+  }
+}
+
+function removeLine() {
+  if (gMeme.lines.length === 0) return;
+  gMeme.lines.splice(gMeme.selectedLineIdx, 1);
+
+  if (gMeme.selectedLineIdx >= gMeme.lines.length) {
+    gMeme.selectedLineIdx = gMeme.lines.length - 1;
+  }
+}
+
+//////////////////////////////////////////////////
+
+function _createLine(x, y) {
+  return {
+    id: gMeme.lines.length,
+    txt: 'Your text here',
+    color: 'white',
+    font: 'Montserrat',
+    stroke: 'black',
+    align: 'center',
+    size: 20,
+    pos: { x, y },
+  };
 }

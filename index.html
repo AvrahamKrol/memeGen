@@ -31,17 +31,21 @@
           <div class="input-container">
             <input type="text" oninput="onSetText(this)" />
             <div class="controls-btns">
-              <button class="ctrl-btn">
+              <button class="ctrl-btn" onclick="onSwitchLine()">
                 <img
                   src="icons/up-and-down-opposite-double-arrows-side-by-side.png"
                   alt="up and down"
                 />
               </button>
               <button class="ctrl-btn">
-                <img src="icons/add.png" alt="add" />
+                <img src="icons/add.png" alt="add" onclick="onAdd()" />
               </button>
               <button class="ctrl-btn">
-                <img src="icons/trash.png" alt="trash" />
+                <img
+                  src="icons/trash.png"
+                  alt="trash"
+                  onclick="onRemoveLine()"
+                />
               </button>
             </div>
           </div>
@@ -56,11 +60,11 @@
               <button class="ctrl-btn" onclick="onAlign('left')">
                 <img src="icons/align-to-left.png" alt="trash" />
               </button>
-              <button class="ctrl-btn" onclick="onAlign('right')">
-                <img src="icons/align-to-right.png" alt="trash" />
-              </button>
               <button class="ctrl-btn" onclick="onAlign('center')">
                 <img src="icons/center-text-alignment.png" alt="trash" />
+              </button>
+              <button class="ctrl-btn" onclick="onAlign('right')">
+                <img src="icons/align-to-right.png" alt="trash" />
               </button>
               <select
                 class="ctrl-btn ctrl-btn-font"
@@ -101,6 +105,7 @@
       <img src="LOGO/LOGO.png" alt="logo" />
       <p>All rights reserved 2026</p>
     </footer>
+    <script src="js/services/utilsService.js"></script>
     <script src="js/services/memeService.js"></script>
     <script src="js/memeController.js"></script>
     <script src="js/galleryController.js"></script>

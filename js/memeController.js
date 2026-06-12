@@ -19,7 +19,7 @@ function renderMeme() {
   img.src = `imgs/${meme.selectedImgId}.jpg`;
   img.onload = () => {
     renderImg(img);
-    drawText(meme.lines[meme.selectedLineIdx]);
+    drawText(meme.lines);
   };
 }
 
@@ -29,7 +29,6 @@ function onSetText(el) {
 }
 
 function onSetFont(font) {
-  console.log('font:', font);
   setFont(font);
   renderMeme();
 }
@@ -54,27 +53,78 @@ function onAlign(direction) {
   renderMeme();
 }
 
-function drawText(line) {
-  gCtx.lineWidth = 4;
-  gCtx.fillStyle = line.color || 'white';
-  gCtx.strokeStyle = line.stroke || 'black';
+function onAdd() {
+  addLine();
+  setInputValue();
+  renderMeme();
+}
 
-  gCtx.font = `${line.size}px ${line.font}`;
-  gCtx.textAlign = line.align || 'center';
-  gCtx.textBaseline = 'top';
+function onSwitchLine() {
+  switchLine();
+  setInputValue();
+  renderMeme();
+}
 
-  const padding = 10;
+function onRemoveLine() {
+  removeLine();
+  setInputValue();
+  renderMeme();
+}
 
-  let x;
+function drawText(lines) {
+  if (lines.length === 0) return;
 
-  if (line.align === 'left') x = padding;
-  else if (line.align === 'right') x = gElCanvas.width - padding;
-  else x = gElCanvas.width / 2;
+  lines.forEach((line, idx) => {
+    let x = line.pos.x;
+    let y = line.pos.y;
 
-  const y = 20;
+    let rectX;
 
-  gCtx.strokeText(line.txt, x, y);
-  gCtx.fillText(line.txt, x, y);
+    gCtx.lineWidth = 3;
+    gCtx.baseLine = 'top';
+
+    gCtx.fillStyle = line.color || 'white';
+    gCtx.strokeStyle = line.stroke || 'black';
+
+    gCtx.font = `${line.size}px ${line.font}`;
+    gCtx.textAlign = line.align || 'center';
+
+    const padding = 10;
+
+    const metrics = gCtx.measureText(line.txt);
+    const width = metrics.width;
+
+    if (line.align === 'left') {
+      x = padding;
+      rectX = x;
+    } else if (line.align === 'right') {
+      x = gElCanvas.width - padding;
+      rectX = x - width;
+    } else {
+      x = gElCanvas.width / 2;
+      rectX = x - width / 2;
+    }
+
+    if (y === 0) {
+      y += padding + line.size;
+    }
+
+    if (idx === gMeme.selectedLineIdx) {
+      gCtx.save();
+      gCtx.strokeStyle = 'yellow';
+      gCtx.lineWidth = 2;
+      gCtx.strokeRect(
+        rectX - padding,
+        y - line.size - padding,
+        width + padding * 2,
+        line.size + padding * 2,
+      );
+      gCtx.restore();
+    }
+
+    gCtx.strokeText(line.txt, x, y);
+    gCtx.fillText(line.txt, x, y);
+  });
 }
 
 function downloadCanvas(elLink) {
