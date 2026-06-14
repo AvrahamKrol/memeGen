@@ -1,7 +1,8 @@
 'use strict';
 
-var gElCanvas;
-var gCtx;
+let gElCanvas;
+let gCtx;
+const PADDING = 10;
 
 function resizeCanvas() {
   const elContainer = document.querySelector('.canvas-container');
@@ -71,15 +72,26 @@ function onRemoveLine() {
   renderMeme();
 }
 
+function onMouseDown(ev) {
+  const pos = getEvPos(ev);
+  const lineIdx = getClickedLineIdx(pos);
+
+  if (lineIdx === -1) {
+    gMeme.selectedLineIdx = -1;
+    setInputValue();
+    renderMeme();
+    return;
+  }
+
+  gMeme.selectedLineIdx = lineIdx;
+  setInputValue();
+  renderMeme();
+}
+
 function drawText(lines) {
   if (lines.length === 0) return;
 
   lines.forEach((line, idx) => {
-    let x = line.pos.x;
-    let y = line.pos.y;
-
-    let rectX;
-
     gCtx.lineWidth = 3;
     gCtx.baseLine = 'top';
 
@@ -89,47 +101,100 @@ function drawText(lines) {
     gCtx.font = `${line.size}px ${line.font}`;
     gCtx.textAlign = line.align || 'center';
 
-    const padding = 10;
-
-    const metrics = gCtx.measureText(line.txt);
-    const width = metrics.width;
-
-    if (line.align === 'left') {
-      x = padding;
-      rectX = x;
-    } else if (line.align === 'right') {
-      x = gElCanvas.width - padding;
-      rectX = x - width;
-    } else {
-      x = gElCanvas.width / 2;
-      rectX = x - width / 2;
-    }
-
-    if (y === 0) {
-      y += padding + line.size;
-    }
-
-    if (idx === gMeme.selectedLineIdx) {
-      gCtx.save();
-      gCtx.strokeStyle = 'yellow';
-      gCtx.lineWidth = 2;
-      gCtx.strokeRect(
-        rectX - padding,
-        y - line.size - padding,
-        width + padding * 2,
-        line.size + padding * 2,
-      );
-      gCtx.restore();
-    }
+    const { x, y, rectX, width } = getLineLayout(line, PADDING);
 
     gCtx.strokeText(line.txt, x, y);
     gCtx.fillText(line.txt, x, y);
+
+    if (idx === gMeme.selectedLineIdx) {
+      const rectY = y;
+      drawRect(line, PADDING, width, rectX, rectY);
+    }
   });
 }
 
+function drawRect(line, padding, width, x, y) {
+  gCtx.save();
+  gCtx.strokeStyle = 'yellow';
+  gCtx.lineWidth = 2;
+
+  gCtx.strokeRect(
+    x - padding,
+    y - line.size - padding,
+    width + padding * 2,
+    line.size + padding * 2,
+  );
+  gCtx.restore();
+}
+
+function getLineLayout(line, padding) {
+  let { pos, align, size } = line;
+  const { width } = gCtx.measureText(line.txt);
+
+  let x;
+  let rectX;
+  let y = pos.y === 0 ? padding + size : pos.y;
+
+  if (align === 'left') {
+    x = padding;
+    rectX = x;
+  } else if (align === 'right') {
+    x = gElCanvas.width - padding;
+    rectX = x - width;
+  } else {
+    x = gElCanvas.width / 2;
+    rectX = x - width / 2;
+  }
+
+  return { x, y, rectX, width };
+}
+
+function getClickedLineIdx(pos) {
+  const { lines } = getMeme();
+  const lineIdx = lines.findIndex((line) => {
+    gCtx.font = `${line.size}px ${line.font}`;
+    gCtx.textAlign = line.align;
+
+    const { rectX, y, width } = getLineLayout(line, PADDING);
+
+    const rectLeft = rectX - PADDING;
+    const rectRight = rectX + width + PADDING;
+    const rectTop = y - line.size - PADDING;
+    const rectBottom = y + PADDING;
+
+    return (
+      pos.x > rectLeft &&
+      pos.x < rectRight &&
+      pos.y > rectTop &&
+      pos.y < rectBottom
+    );
+  });
+
+  return lineIdx;
+}
+
 function downloadCanvas(elLink) {
-  elLink.download = gMeme.selectedImgId; // Set a name for the downloaded file
+  elLink.download = gMeme.selectedImgId;
 
   const dataUrl = gElCanvas.toDataURL();
   elLink.href = dataUrl;
+}
+
+function getEvPos(ev) {
+  const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend'];
+
+  let pos = {
+    x: ev.offsetX,
+    y: ev.offsetY,
+  };
+
+  if (TOUCH_EVS.includes(ev.type)) {
+    ev.preventDefault();
+    ev = ev.changedTouches[0];
+    pos = {
+      x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+      y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+    };
+  }
+  return pos;
 }

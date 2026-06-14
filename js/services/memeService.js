@@ -57,7 +57,7 @@ function setInputValue() {
 
   input.value = '';
 
-  if (gMeme.lines.length !== 0) {
+  if (gMeme.lines.length && gMeme.selectedLineIdx !== -1) {
     input.value = gMeme.lines[gMeme.selectedLineIdx].txt;
   }
 }
@@ -83,10 +83,11 @@ function setAlign(dir) {
 }
 
 function addLine() {
+  const txt = document.querySelector('input[type="text"]').value;
   const x = getRandomInt(0, gElCanvas.width);
   const y = getRandomInt(0, gElCanvas.height);
 
-  const newLine = _createLine(x, y);
+  const newLine = _createLine(x, y, txt);
   gMeme.lines.push(newLine);
   gMeme.selectedLineIdx = gMeme.lines.length - 1;
 }
@@ -110,10 +111,10 @@ function removeLine() {
 
 //////////////////////////////////////////////////
 
-function _createLine(x, y) {
+function _createLine(x, y, txt = 'Your text here') {
   return {
     id: gMeme.lines.length,
-    txt: 'Your text here',
+    txt,
     color: 'white',
     font: 'Montserrat',
     stroke: 'black',
