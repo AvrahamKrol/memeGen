@@ -13,7 +13,7 @@ let gMeme = {
       id: 0,
       txt: 'I sometimes eat Falafel',
       color: 'white',
-      font: 'Montserrat',
+      font: 'montserrat',
       stroke: 'black',
       align: 'center',
       size: 40,
@@ -23,7 +23,7 @@ let gMeme = {
       id: 1,
       txt: 'I love nature',
       color: 'white',
-      font: 'Montserrat',
+      font: 'montserrat',
       stroke: 'black',
       align: 'center',
       size: 20,
@@ -49,17 +49,9 @@ function setImg(imgId) {
 }
 
 function setLineTxt(txt) {
+  if (gMeme.selectedLineIdx === -1) return;
+
   gMeme.lines[gMeme.selectedLineIdx].txt = txt;
-}
-
-function setInputValue() {
-  const input = document.querySelector('input[type="text"]');
-
-  input.value = '';
-
-  if (gMeme.lines.length && gMeme.selectedLineIdx !== -1) {
-    input.value = gMeme.lines[gMeme.selectedLineIdx].txt;
-  }
 }
 
 function setFont(font) {
@@ -83,7 +75,8 @@ function setAlign(dir) {
 }
 
 function addLine() {
-  const txt = document.querySelector('input[type="text"]').value;
+  const txt =
+    document.querySelector('input[type="text"]').value || 'Your text here';
   const x = getRandomInt(0, gElCanvas.width);
   const y = getRandomInt(0, gElCanvas.height);
 
@@ -109,6 +102,27 @@ function removeLine() {
   }
 }
 
+function editMeme() {
+  const font = document.querySelector('select');
+  const txt = document.querySelector('input[type="text"]');
+  const strokeColor = document.querySelector('.stroke-color input');
+  const fillColor = document.querySelector('.fill-color input');
+
+  const defaults = {
+    txt: '',
+    font: 'montserrat',
+    stroke: '#000',
+    color: '#fff',
+  };
+  const line = gMeme.selectedLineIdx === -1 ? defaults : getSelectedLine();
+
+  font.value = line.font;
+  txt.value = line.txt;
+  strokeColor.value = line.stroke;
+  fillColor.value = line.color;
+  console.log(font.value);
+}
+
 //////////////////////////////////////////////////
 
 function _createLine(x, y, txt = 'Your text here') {
@@ -116,7 +130,7 @@ function _createLine(x, y, txt = 'Your text here') {
     id: gMeme.lines.length,
     txt,
     color: 'white',
-    font: 'Montserrat',
+    font: 'montserrat',
     stroke: 'black',
     align: 'center',
     size: 20,

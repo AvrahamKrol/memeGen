@@ -55,20 +55,24 @@ function onAlign(direction) {
 }
 
 function onAdd() {
-  addLine();
-  setInputValue();
-  renderMeme();
+  if (gMeme.selectedLineIdx === -1) {
+    addLine();
+    editMeme();
+    renderMeme();
+  }
 }
 
 function onSwitchLine() {
   switchLine();
-  setInputValue();
+  editMeme();
+
   renderMeme();
 }
 
 function onRemoveLine() {
   removeLine();
-  setInputValue();
+  editMeme();
+
   renderMeme();
 }
 
@@ -78,13 +82,13 @@ function onMouseDown(ev) {
 
   if (lineIdx === -1) {
     gMeme.selectedLineIdx = -1;
-    setInputValue();
+    editMeme();
     renderMeme();
     return;
   }
 
   gMeme.selectedLineIdx = lineIdx;
-  setInputValue();
+  editMeme();
   renderMeme();
 }
 
