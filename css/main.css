@@ -129,7 +129,7 @@ main .editor-container {
 }
 
 .ctrl-btn img {
-    width: 52px;
+    width: 3.25em;
     flex: 1;
 }
 
@@ -221,6 +221,14 @@ footer p {
         width: 100%;
         padding-inline: 20px;
         margin-inline-start: 0;
+    }
+
+    .controls .ctrl-btn {
+        padding: 3px 3px;
+    }
+
+    .controls .ctrl-btn img {
+        width: 2.25em
     }
 
     footer {

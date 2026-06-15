@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <title>MemeGen</title>
   </head>
-  <body onload="onInit()" onresize="resizeCanvas()">
+  <body onload="onInit()">
     <header>
       <img src="LOGO/LOGO.png" alt="logo" />
       <nav>
@@ -52,10 +52,10 @@
           <div class="typo-container">
             <div class="controls-btns">
               <button class="ctrl-btn" onclick="onSetFontSize(2)">
-                <img src="icons/increase font - icon.png" alt="increase" />
+                <img src="icons/increase-font-icon.png" alt="increase" />
               </button>
               <button class="ctrl-btn" onclick="onSetFontSize(-2)">
-                <img src="icons/decrease font - icon.png" alt="decrease" />
+                <img src="icons/decrease-font-icon.png" alt="decrease" />
               </button>
               <button class="ctrl-btn" onclick="onAlign('left')">
                 <img src="icons/align-to-left.png" alt="trash" />
@@ -78,7 +78,7 @@
                 <option value="impact">Impact</option>
               </select>
               <label class="ctrl-btn stroke-color">
-                <img src="icons/text stroke.png" alt="stroke color" />
+                <img src="icons/text-stroke.png" alt="stroke color" />
                 <input type="color" oninput="onSetStrokeColor(this.value)" />
               </label>
               <label class="ctrl-btn fill-color">
@@ -109,5 +109,6 @@
     <script src="js/services/memeService.js"></script>
     <script src="js/memeController.js"></script>
     <script src="js/galleryController.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>

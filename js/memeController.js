@@ -1,14 +1,5 @@
 'use strict';
 
-let gElCanvas;
-let gCtx;
-const PADDING = 10;
-
-function resizeCanvas() {
-  const elContainer = document.querySelector('.canvas-container');
-  gElCanvas.width = elContainer.clientWidth;
-}
-
 function renderImg(img) {
   gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width;
   gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
@@ -54,7 +45,7 @@ function onAlign(direction) {
   renderMeme();
 }
 
-function onAdd() {
+function mng() {
   if (gMeme.selectedLineIdx === -1) {
     addLine();
     editMeme();
