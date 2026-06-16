@@ -16,6 +16,23 @@ function onInit() {
   showSection(gIsEditor);
 }
 
+function addListeners() {
+  addMouseListeners();
+  addTouchListeners();
+}
+
+function addMouseListeners() {
+  gElCanvas.addEventListener('mousedown', onMouseDown);
+  gElCanvas.addEventListener('mousemove', onMove);
+  gElCanvas.addEventListener('mouseup', onMouseUp);
+}
+
+function addTouchListeners() {
+  gElCanvas.addEventListener('touchstart', onMouseDown);
+  gElCanvas.addEventListener('touchmove', onMove);
+  gElCanvas.addEventListener('touchend', onMouseUp);
+}
+
 function resizeCanvas() {
   if (!gElCanvas) return;
   const elContainer = document.querySelector('.canvas-container');
@@ -40,6 +57,8 @@ function onChangeSection() {
   if (gIsEditor) {
     gElCanvas = document.querySelector('canvas');
     gCtx = gElCanvas.getContext('2d');
+    gElCanvas.style.cursor = 'grab';
+    addListeners();
     resizeCanvas();
     editMeme();
     renderMeme();

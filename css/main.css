@@ -160,7 +160,7 @@ canvas {
 
 .controls .share-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 
 .controls .btn-share {
@@ -246,11 +246,15 @@ footer p {
         display: block;
     }
 
-
+    .controls .share-container {
+        justify-content: stretch;
+    }
 
     .controls .btn-share {
         padding: 0.55em 1.8em;
         font-size: 1em;
+        width: 100%;
+        text-align: center;
     }
 
     .controls .ctrl-btn {

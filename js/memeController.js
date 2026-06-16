@@ -1,5 +1,7 @@
 'use strict';
 
+let gCurrPos;
+
 function renderImg(img) {
   gElCanvas.height = (img.naturalHeight / img.naturalWidth) * gElCanvas.width;
   gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
@@ -47,7 +49,9 @@ function onAlign(direction) {
 
 function onAddLine() {
   if (gMeme.selectedLineIdx === -1) {
-    addLine();
+    const txt =
+      document.querySelector('input[type="text"]').value || 'Your text here';
+    addLine(txt);
     editMeme();
     renderMeme();
   }
@@ -68,19 +72,45 @@ function onRemoveLine() {
 }
 
 function onMouseDown(ev) {
-  const pos = getEvPos(ev);
-  const lineIdx = getClickedLineIdx(pos);
+  gCurrPos = getEvPos(ev);
+  const lineIdx = getClickedLineIdx(gCurrPos);
 
   if (lineIdx === -1) {
-    gMeme.selectedLineIdx = -1;
+    setSelectedLineIdx(-1);
     editMeme();
     renderMeme();
     return;
   }
 
-  gMeme.selectedLineIdx = lineIdx;
+  setTextDrag(true);
+  setSelectedLineIdx(lineIdx);
+  gElCanvas.style.cursor = 'grabbing';
+
   editMeme();
   renderMeme();
+}
+
+function onMove(ev) {
+  const meme = getMeme();
+  const pos = getEvPos(ev);
+
+  if (meme.selectedLineIdx === -1) return;
+
+  const { isDrag } = meme.lines[meme.selectedLineIdx];
+  if (!isDrag) return;
+
+  const dx = pos.x - gCurrPos.x;
+  const dy = pos.y - gCurrPos.y;
+
+  moveText(dx, dy);
+  gCurrPos = pos;
+  renderMeme();
+}
+
+function onMouseUp() {
+  if (gMeme.selectedLineIdx === -1) return;
+  setTextDrag(false);
+  gElCanvas.style.cursor = 'grab';
 }
 
 function drawText(lines) {
@@ -88,7 +118,6 @@ function drawText(lines) {
 
   lines.forEach((line, idx) => {
     gCtx.lineWidth = 3;
-    gCtx.baseLine = 'top';
 
     gCtx.fillStyle = line.color || 'white';
     gCtx.strokeStyle = line.stroke || 'black';
@@ -123,14 +152,16 @@ function drawRect(line, padding, width, x, y) {
 }
 
 function getLineLayout(line, padding) {
-  let { pos, align, size } = line;
+  const { pos, align, size } = line;
   const { width } = gCtx.measureText(line.txt);
 
-  let x;
-  let rectX;
-  let y = pos.y === 0 ? padding + size : pos.y;
+  let x, rectX;
+  const y = pos.y === 0 ? padding + size : pos.y;
 
-  if (align === 'left') {
+  if (pos.x !== 0) {
+    x = pos.x;
+    rectX = x - width / 2;
+  } else if (align === 'left') {
     x = padding;
     rectX = x;
   } else if (align === 'right') {

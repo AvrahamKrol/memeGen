@@ -32,8 +32,9 @@ let gMeme = {
       font: 'montserrat',
       stroke: 'black',
       align: 'center',
-      size: 40,
+      size: 30,
       pos: { x: 0, y: 0 },
+      isDrag: false,
     },
     {
       id: 1,
@@ -44,6 +45,7 @@ let gMeme = {
       align: 'center',
       size: 20,
       pos: { x: 0, y: 200 },
+      isDrag: false,
     },
   ],
 };
@@ -57,42 +59,57 @@ function getImgs() {
 }
 
 function getSelectedLine() {
+  if (gMeme.selectedLineIdx === -1) return;
   return gMeme.lines[gMeme.selectedLineIdx];
 }
 
+function setSelectedLineIdx(idx) {
+  gMeme.selectedLineIdx = idx;
+}
+
 function setImg(imgId) {
+  if (!gMeme.selectedImgId) return;
   gMeme.selectedImgId = imgId;
 }
 
 function setLineTxt(txt) {
   if (gMeme.selectedLineIdx === -1) return;
-
   gMeme.lines[gMeme.selectedLineIdx].txt = txt;
 }
 
 function setFont(font) {
+  if (gMeme.selectedLineIdx === -1) return;
   gMeme.lines[gMeme.selectedLineIdx].font = `${font}`;
 }
 
 function setFontSize(diff) {
+  if (gMeme.selectedLineIdx === -1) return;
   gMeme.lines[gMeme.selectedLineIdx].size += diff;
 }
 
 function setFill(color) {
+  if (gMeme.selectedLineIdx === -1) return;
   gMeme.lines[gMeme.selectedLineIdx].color = color;
 }
 
 function setStroke(stroke) {
+  if (gMeme.selectedLineIdx === -1) return;
   gMeme.lines[gMeme.selectedLineIdx].stroke = stroke;
 }
 
 function setAlign(dir) {
-  gMeme.lines[gMeme.selectedLineIdx].align = dir;
+  if (gMeme.selectedLineIdx === -1) return;
+  const line = gMeme.lines[gMeme.selectedLineIdx];
+  line.align = dir;
+  line.pos.x = 0;
 }
 
-function addLine() {
-  const txt =
-    document.querySelector('input[type="text"]').value || 'Your text here';
+function setTextDrag(isDrag) {
+  if (gMeme.selectedLineIdx === -1) return;
+  gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag;
+}
+
+function addLine(txt) {
   const x = getRandomInt(0, gElCanvas.width);
   const y = getRandomInt(0, gElCanvas.height);
 
@@ -136,7 +153,11 @@ function editMeme() {
   txt.value = line.txt;
   strokeColor.value = line.stroke;
   fillColor.value = line.color;
-  console.log(font.value);
+}
+
+function moveText(dx, dy) {
+  gMeme.lines[gMeme.selectedLineIdx].pos.x += dx;
+  gMeme.lines[gMeme.selectedLineIdx].pos.y += dy;
 }
 
 //////////////////////////////////////////////////
@@ -151,5 +172,6 @@ function _createLine(x, y, txt = 'Your text here') {
     align: 'center',
     size: 20,
     pos: { x, y },
+    isDrag: false,
   };
 }
