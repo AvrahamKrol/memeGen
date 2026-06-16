@@ -27,24 +27,13 @@ let gMeme = {
   lines: [
     {
       id: 0,
-      txt: 'I sometimes eat Falafel',
+      txt: 'Your text here',
       color: 'white',
       font: 'montserrat',
       stroke: 'black',
       align: 'center',
       size: 30,
       pos: { x: 0, y: 0 },
-      isDrag: false,
-    },
-    {
-      id: 1,
-      txt: 'I love nature',
-      color: 'white',
-      font: 'montserrat',
-      stroke: 'black',
-      align: 'center',
-      size: 20,
-      pos: { x: 0, y: 200 },
       isDrag: false,
     },
   ],
@@ -70,6 +59,8 @@ function setSelectedLineIdx(idx) {
 function setImg(imgId) {
   if (!gMeme.selectedImgId) return;
   gMeme.selectedImgId = imgId;
+  // gMeme.selectedLineIdx = 0;
+  // gMeme.lines = [_createLine(0, 0, 'Top text')];
 }
 
 function setLineTxt(txt) {
