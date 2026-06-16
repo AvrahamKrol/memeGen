@@ -141,8 +141,17 @@ canvas {
     transform: scale(1);
 }
 
-.ctrl-btn input[type='color'] {
-    display: none;
+.stroke-color,
+.fill-color {
+    position: relative;
+}
+
+.stroke-color input,
+.fill-color input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
 }
 
 .ctrl-btn img {
