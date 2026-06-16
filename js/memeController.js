@@ -45,7 +45,7 @@ function onAlign(direction) {
   renderMeme();
 }
 
-function mng() {
+function onAddLine() {
   if (gMeme.selectedLineIdx === -1) {
     addLine();
     editMeme();
